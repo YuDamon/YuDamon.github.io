@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            Git笔记Ⅰ | 
+        
+        Hierarchy
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com"/>
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Damon">
+    <meta name="description" content="description">
+    <meta name="keywords" content="Hierarchy,Git/GitHub">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Hierarchy">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yudamon.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Git笔记Ⅰ | Hierarchy">
+    <meta property="og:description" content="description">
+    <meta property="og:article:tag" content="Git/GitHub"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #76C27D !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #76C27D !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #76C27D !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/img/1485080655223.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?a23836a8b86119cdd5a58cc0fe5ecfe0';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-初始化"><span class="post-toc-number">1.</span> <span class="post-toc-text">1 初始化</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-文件状态操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">2 文件状态操作</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-一个例子"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 一个例子</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-状态简览"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 状态简览</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-add命令"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">2.3 add命令</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-忽略文件"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">2.4 忽略文件</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-5-git-diff"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">2.5 git diff</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-6-移除文件"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">2.6 移除文件</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-提交"><span class="post-toc-number">3.</span> <span class="post-toc-text">3 提交</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-1-查看提交历史"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">3.1 查看提交历史</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-2-撤销操作（待补充）"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">3.2 撤销操作（待补充）</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-远程仓库推送push"><span class="post-toc-number">4.</span> <span class="post-toc-text">4 远程仓库推送push</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-添加"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 添加</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-查看"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2 查看</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-推送"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">4.3 推送</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-移除和重命名"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">4.4 移除和重命名</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-从远程仓库拉取pull"><span class="post-toc-number">5.</span> <span class="post-toc-text">5 从远程仓库拉取pull</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script>
+    var randomNum = Math.floor(Math.random() * 59 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                Git笔记Ⅰ
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/dog.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Damon</strong>
+        <span>4月 20, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Git-GitHub/">Git/GitHub</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Git笔记Ⅰ&url=http://yudamon.github.io//2017/04/20/Git_1/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Git笔记Ⅰ&url=http://yudamon.github.io//2017/04/20/Git_1/index.html&via=Damon" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yudamon.github.io//2017/04/20/Git_1/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yudamon.github.io//2017/04/20/Git_1/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Hierarchy&title=Git笔记Ⅰ&summary=description&pics=http://yudamon.github.io/img/favicon.png&url=http://yudamon.github.io/2017/04/20/Git_1/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>（基础篇）一些Git的基本知识和操作<br><a id="more"></a><br>更多请参考 <a href="https://git-scm.com/book/zh/v2" target="_blank" rel="external">Pro Git 中文版</a><br><img src="http://octknctrc.bkt.clouddn.com/progit2.png" style="zoom:30%"><br><strong>基础篇内容：</strong><br>配置并初始化一个仓库（repository）、开始或停止跟踪（track）文件、暂存（stage）或提交（commit）更改。 配置 Git 来忽略指定文件模式、撤销错误操作、浏览项目的历史版本以及不同提交（commits）间的差异、远程仓库推送（push）以及从远程仓库拉取（pull）文件</p>
+<h3 id="1-初始化"><a href="#1-初始化" class="headerlink" title="1 初始化"></a>1 初始化</h3><p>初始化后，在本地代码库会自动创建一个 .git 隐藏目录</p>
+<pre><code>git init
+</code></pre><p>所有 Git 需要的数据和资源都存放在这个目录中。但目前仅仅是按照既有的结构框架初始化好了里边所有的文件和目录，还没有开始跟踪管理项目中的任何一个文件</p>
+<h3 id="2-文件状态操作"><a href="#2-文件状态操作" class="headerlink" title="2 文件状态操作"></a>2 文件状态操作</h3><p>工作目录下的每一个文件仅可能有”已跟踪或未跟踪“两种状态。<br>已跟踪文件：被纳入了版本控制的文件。在上一次快照中有记录，在工作一段时间后，状态可能处于未修改，已修改或已放入暂存区。 （初次clone某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态）<br>未跟踪文件：既不存在于上次快照的记录中，也没有放入暂存区。<br><img src="http://octknctrc.bkt.clouddn.com/lifecycle.png" alt="file status"></p>
+<pre><code>git status
+</code></pre><h4 id="2-1-一个例子"><a href="#2-1-一个例子" class="headerlink" title="2.1 一个例子"></a>2.1 一个例子</h4><p><strong>Step 1 </strong><br>先建一个新文件README</p>
+<pre><code>$ echo &apos;Hello&apos; &gt; README
+$ git status
+Untracked files: 
+    README
+</code></pre><p>此时，新的README未被跟踪。</p>
+<p><strong>Step 2 </strong><br>然后add一下README</p>
+<pre><code>$ git add README
+$ git status
+Changes to be committed: 
+    new file:   README
+</code></pre><p>add之后，README 文件：被跟踪，暂存状态</p>
+<p><strong>Step 3 </strong><br>若修改了一个已被跟踪的，的main.cpp</p>
+<pre><code>$ git status
+Changes to be committed:
+    new file:   README
+Changes not staged for commit:
+    modified:   main.cpp
+</code></pre><p>此时，main.cpp状态是：已被跟踪，有修改，未暂存。<br>那么再用一次add暂存这个文件之后</p>
+<pre><code>$ git add main.cpp
+$ git status
+Changes to be committed:
+    new file:   README
+    modified:   main.cpp
+</code></pre><p>现在两个文件都 已暂存</p>
+<p><strong>Step 4 </strong><br>若又一次修改了这个main.cpp，这时看下status</p>
+<pre><code>$ git status
+Changes to be committed:
+    new file:   README
+    modified:   main.cpp
+
+Changes not staged for commit:   
+    modified:   main.cpp
+</code></pre><p>发现会有暂存的，和还未暂存的两个版本的main.cpp（其实就是“又一次修改”前后的两个版本）<br>所以此时需要再次add</p>
+<pre><code>$ git add main.cpp
+$ git status
+Changes to be committed:
+    new file:   README
+    modified:   main.cpp
+</code></pre><h4 id="2-2-状态简览"><a href="#2-2-状态简览" class="headerlink" title="2.2 状态简览"></a>2.2 状态简览</h4><pre><code>git status -s
+</code></pre><p>??：新添加的未跟踪文件<br>A：新添加到暂存区中的文件<br>左 M： 文件被修改并放入了暂存区<br>右 M ：文件被修改还未放入暂存区</p>
+<h4 id="2-3-add命令"><a href="#2-3-add命令" class="headerlink" title="2.3 add命令"></a>2.3 add命令</h4><p><path></path>可以是文件也可以是目录</p>
+<pre><code>git add &lt;path&gt;
+git add .
+git add *.cpp
+git add index.html
+</code></pre><h4 id="2-4-忽略文件"><a href="#2-4-忽略文件" class="headerlink" title="2.4 忽略文件"></a>2.4 忽略文件</h4><p>若有无需纳入 Git 管理，也不希望总出现在未跟踪文件列表里的文件，可以创建 .gitignore 文件，列出要忽略的文件模式<br>一个例子来学习规范：</p>
+<pre><code># 所有空行或者以 ＃ 开头的行都会被 Git 忽略
+# 可以使用标准的 glob 模式匹配（这个什么意思 不懂）
+
+# no .a files 
+*.a
+
+# 要忽略指定模式以外的文件或目录，可在前加（!）取反
+# but do track lib.a, even though you&apos;re ignoring .a files above
+!lib.a
+
+# 匹配模式可以以（/）开头防止递归
+# only ignore the TODO file in the current directory, not subdir/TODO
+/TODO
+
+# 匹配模式可以以（/）结尾指定目录
+# ignore all files in the build/ directory
+build/
+
+# ignore doc/notes.txt, but not doc/server/arch.txt
+doc/*.txt
+
+# ignore all .pdf files in the doc/ directory
+doc/**/*.pdf
+</code></pre><p>注：GitHub 有十分详细的针对数十种项目及语言的 .gitignore 文件列表，<a href="https://github.com/github/gitignore" target="_blank" rel="external">https://github.com/github/gitignore</a></p>
+<h4 id="2-5-git-diff"><a href="#2-5-git-diff" class="headerlink" title="2.5 git diff"></a>2.5 git diff</h4><p>比较工作目录中当前文件和暂存区域快照之间的差异， 也就是修改之后还没有暂存起来的变化内容</p>
+<pre><code>git diff
+</code></pre><p>若要查看已暂存的将要添加到下次提交里的内容</p>
+<pre><code>git diff --cached
+git diff --staged （更高级版本中）
+</code></pre><p>git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。<br> 所以若使用git add .暂存了所有更新过的文件后，运行 git diff 后就会什么都没有</p>
+<h4 id="2-6-移除文件"><a href="#2-6-移除文件" class="headerlink" title="2.6 移除文件"></a>2.6 移除文件</h4><p>要从 Git 中移除某个文件，就必须要从暂存区域移除，然后提交<br><strong>Case 1</strong><br>比如要删除README（Git不再跟踪，且从硬盘中删除）</p>
+<pre><code>$ rm README
+$ git status
+Changes not staged for commit:
+    deleted:README
+</code></pre><p>此时，README是未暂存状态<br>再运行 git rm 记录此次移除文件的操作</p>
+<pre><code>$ git rm README
+rm &apos;README&apos;
+$ git status
+Changes to be committed:
+    deleted:README
+</code></pre><p>此时，“移除README”被记录，README将不再纳入版本管理。如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f<br><strong>Case 2</strong><br>若想让文件保留在磁盘，但是并不想让 Git 继续跟踪</p>
+<pre><code>$ git rm --cached README
+</code></pre><p>另外，mv同样可以用作文件重命名: </p>
+<pre><code>git mv main.cpp main2.cpp 
+</code></pre><h3 id="3-提交"><a href="#3-提交" class="headerlink" title="3 提交"></a>3 提交</h3><p>先确定好文件是否都暂存了，然后git commit 提交（将索引内容添加到仓库中）</p>
+<pre><code>git commit -m &quot;fix 3 bugs&quot;
+</code></pre><p>也可以跳过使用暂存区域 -a</p>
+<pre><code>git commit -a -m &apos;added new benchmarks&apos;
+</code></pre><h4 id="3-1-查看提交历史"><a href="#3-1-查看提交历史" class="headerlink" title="3.1 查看提交历史"></a>3.1 查看提交历史</h4><pre><code>git log
+</code></pre><h4 id="3-2-撤销操作（待补充）"><a href="#3-2-撤销操作（待补充）" class="headerlink" title="3.2 撤销操作（待补充）"></a>3.2 撤销操作（待补充）</h4><h3 id="4-远程仓库推送push"><a href="#4-远程仓库推送push" class="headerlink" title="4 远程仓库推送push"></a>4 远程仓库推送push</h3><h4 id="4-1-添加"><a href="#4-1-添加" class="headerlink" title="4.1 添加"></a>4.1 添加</h4><pre><code>git remote add &lt;shortname&gt; &lt;url&gt;
+git remote add origin git@github.com:YuDamon/Softmax.git
+git remote add origin https://github.com/YuDamon/Softmax.git
+</code></pre><p>此时用origin代替远程仓库git@github.com:YuDamon/Softmax.git</p>
+<h4 id="4-2-查看"><a href="#4-2-查看" class="headerlink" title="4.2 查看"></a>4.2 查看</h4><pre><code>git remote
+git remote -v
+
+git remote show [remote-name]
+git remote show origin
+</code></pre><h4 id="4-3-推送"><a href="#4-3-推送" class="headerlink" title="4.3 推送"></a>4.3 推送</h4><pre><code>git push [remote-name] [branch-name]
+git push -u origin master
+</code></pre><p>使用-u之后，指定origin为默认主机，以后就可以不加任何参数使用git push了</p>
+<h4 id="4-4-移除和重命名"><a href="#4-4-移除和重命名" class="headerlink" title="4.4 移除和重命名"></a>4.4 移除和重命名</h4><pre><code>git remote rename originl oringin2
+git remote rm origin2
+</code></pre><h3 id="5-从远程仓库拉取pull"><a href="#5-从远程仓库拉取pull" class="headerlink" title="5 从远程仓库拉取pull"></a>5 从远程仓库拉取pull</h3><pre><code>git fetch [remote-name]
+git pull [remote-name] [branch-name]
+</code></pre><p>fetch：从远程获取最新版本到本地，不会自动merge<br>pull：是从远程获取最新版本，并merge到本地（相当于git fetch 和 git merge）<br>所以在实际使用中，git fetch更安全一些：在merge前，我们可以查看更新情况，然后再决定是否合并</p>
+<hr>
+<p>2017/04/22 初版完成<br>2017/04/27 补充</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2017/04/21/Markdown/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/04/20/Git_2/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/dog.jpg" alt="Damon's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        hidamon@163.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Default/">Default<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/Fantasy/">Fantasy<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/学习笔记/">学习笔记<span class="sidebar_archives-count">18</span></a></li><li><a class="sidebar_archives-link" href="/categories/技多不压身/">技多不压身<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/论文笔记/">论文笔记<span class="sidebar_archives-count">11</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">folder</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="时刻">
+                
+                    <i class="material-icons sidebar-material-icons">toys</i>
+                
+                时刻
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章
+                <span class="sidebar-badge">37</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/YuDamon" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;Hierarchy
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

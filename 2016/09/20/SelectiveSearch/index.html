@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            论文笔记 - Selective Search for Object Recognition | 
+        
+        Hierarchy
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com"/>
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Damon">
+    <meta name="description" content="description">
+    <meta name="keywords" content="Hierarchy,ML_DL,CV,Object Detection">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Hierarchy">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yudamon.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="论文笔记 - Selective Search for Object Recognition | Hierarchy">
+    <meta property="og:description" content="description">
+    <meta property="og:article:tag" content="ML_DL"> <meta property="og:article:tag" content="CV"> <meta property="og:article:tag" content="Object Detection"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #76C27D !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #76C27D !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #76C27D !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/img/1485080655223.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?a23836a8b86119cdd5a58cc0fe5ecfe0';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Introduction"><span class="post-toc-number">1.</span> <span class="post-toc-text">1 Introduction</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-1-关于什么是Object"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1.1 关于什么是Object</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-2-本文目标"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">1.2 本文目标</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-Selective-Search方法"><span class="post-toc-number">2.</span> <span class="post-toc-text">2 Selective Search方法</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-算法设计的几点考虑"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 算法设计的几点考虑</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-层级合并-hierarchical-grouping-算法"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 层级合并(hierarchical grouping)算法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-多样性策略"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">2.3 多样性策略</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-3-1-颜色空间多样化"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">2.3.1 颜色空间多样化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-3-2-相似性度量多样化"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">2.3.2 相似性度量多样化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-3-3-初始region选择的多样化"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">2.3.3 初始region选择的多样化</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-4-打分"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">2.4 打分</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-使用Selective-Search进行目标识别"><span class="post-toc-number">3.</span> <span class="post-toc-text">3 使用Selective Search进行目标识别</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-Evaluation"><span class="post-toc-number">4.</span> <span class="post-toc-text">4 Evaluation</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-1-与多样性策略相关的对比试验"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">4.1 与多样性策略相关的对比试验</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-2-目标定位的质量"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">4.2 目标定位的质量</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-3-目标识别"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">4.3 目标识别</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-4-关于定位质量的上界-upper-bound-的讨论"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">4.4 关于定位质量的上界(upper bound)的讨论</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-感想"><span class="post-toc-number">5.</span> <span class="post-toc-text">5 感想</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script>
+    var randomNum = Math.floor(Math.random() * 59 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                论文笔记 - Selective Search for Object Recognition
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/dog.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Damon</strong>
+        <span>9月 20, 2016</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/CV/">CV</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/ML-DL/">ML_DL</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Object-Detection/">Object Detection</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=论文笔记 - Selective Search for Object Recognition&url=http://yudamon.github.io//2016/09/20/SelectiveSearch/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=论文笔记 - Selective Search for Object Recognition&url=http://yudamon.github.io//2016/09/20/SelectiveSearch/index.html&via=Damon" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yudamon.github.io//2016/09/20/SelectiveSearch/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yudamon.github.io//2016/09/20/SelectiveSearch/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Hierarchy&title=论文笔记 - Selective Search for Object Recognition&summary=description&pics=http://yudamon.github.io/img/favicon.png&url=http://yudamon.github.io/2016/09/20/SelectiveSearch/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>R-CNN -&gt; SPP-NET -&gt; Fast R-CNN -&gt; Faster R-CNN这条路线中，除了最新版本的Faster R-CNN将RPN网络和Fast R-CNN网络结合为一体，实现了端到端(end to end)的框架，前三种框架的论文中都提及并使用了<em>Selective Search</em>的方法来产生region proposal。<br><br>那我当然要拜读一下这篇咯<br><a id="more"></a><br>Uijlings J R, Sande K E, Gevers T, et al. Selective Search for Object Recognition[J]. International Journal of Computer Vision, 2013, 104(2):154-171.<br>论文作者的<a href="http://koen.me/research/selectivesearch/" target="_blank" rel="external">个人网站中的相关介绍</a></p>
+<p>Note: markdown的标题的层级关系看起来不是特别清晰，加上数字标号的话又会和自动生成的目录重复，所以我用 <strong>^</strong>来标记。 </p>
+<h3 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h3><p>在引言部分，作者提及几点关于object的本质性问题。</p>
+<h4 id="1-1-关于什么是Object"><a href="#1-1-关于什么是Object" class="headerlink" title="1.1 关于什么是Object"></a>1.1 关于什么是Object</h4><p><img src="http://octknctrc.bkt.clouddn.com/SS_Figure_1.png" alt="figure1"></p>
+<ul>
+<li><strong>图像中的object是有层级关系的(images are intrinsically hierarchical)，故需要多尺度的分割。</strong>如Fig 1(a)，食物在碗里，而碗又在桌子上。即object间存在”嵌套”关系。 </li>
+<li><strong>无法用单一的视觉特征（颜色、纹理、距离等）解决所有的分割问题。</strong>如Fig 1(b)中，两只猫能通过颜色特征区分，但无法用纹理(texture)特征；Fig1(c)中，变色龙和背景的绿叶能用纹理特征区分，而不能用颜色特征；Fig1(d)中，由于包附(enclose)关系，才认为车轮是汽车的一部分，而不是因为两者颜色或纹理相近。<strong>所以，分割时应该使用多种策略。</strong></li>
+<li><strong>当某个region中的两部分性质差别很大，则需要先验知识(prior recognition)来确定是否同一object的两部分。</strong> 比如衣服和人脸，只有在提前设定识别目标是“人”的时候，才会将其归为一个object的两部分。</li>
+</ul>
+<h4 id="1-2-本文目标"><a href="#1-2-本文目标" class="headerlink" title="1.2 本文目标"></a>1.2 本文目标</h4><p>使用与类别无关的、基于数据的、选择性的搜索策略来生成较少数量的、高质量的候选目标定位。(Generate a class-independent, data-driven, selective search strategy that generates a small set of high-quality object locations) </p>
+<h3 id="2-Selective-Search方法"><a href="#2-Selective-Search方法" class="headerlink" title="2 Selective Search方法"></a>2 <em>Selective Search</em>方法</h3><h4 id="2-1-算法设计的几点考虑"><a href="#2-1-算法设计的几点考虑" class="headerlink" title="2.1 算法设计的几点考虑"></a>2.1 算法设计的几点考虑</h4><ul>
+<li><strong>候选的目标定位覆盖所有尺度(Capture all scales)</strong> 如Fig 2，通过分割将图片分成很多原始的region，再将region一层一层地合并成组(grouping)，聚成大的region，直到整张图片变成一个region，在这个过程中生成multi-scale的region。</li>
+<li><strong>多样化的策略(Diversification)</strong></li>
+<li><strong>计算量小(Fast to compute)</strong></li>
+</ul>
+<p><img src="http://octknctrc.bkt.clouddn.com/SS_Figure_2.png" alt="SS_Figure_2"></p>
+<h4 id="2-2-层级合并-hierarchical-grouping-算法"><a href="#2-2-层级合并-hierarchical-grouping-算法" class="headerlink" title="2.2 层级合并(hierarchical grouping)算法"></a>2.2 层级合并(hierarchical grouping)算法</h4><p>采用的是自下而上(bottom-up)的合并方法，和非监督模式识别中的分级聚类(hierarchical clustering)方法的思想很相似。文章中的符号化的表达见Algorithm 1</p>
+<p><img src="http://octknctrc.bkt.clouddn.com/SS_Algorithm_1.png" alt="SS_Algorithm_1"><br>简单地说，就是以下过程：</p>
+<ul>
+<li>1 用论文<a href="http://cs.brown.edu/~pff/segment/" target="_blank" rel="external">Graph-Based Image Segmentation</a>中的方法来得到初始的region</li>
+<li>2 计算所有相邻region间的相似度</li>
+<li>3 合并相似度最高的两个region</li>
+<li>4 计算合并后的region与相邻region的相似度</li>
+<li>5 重复2、3、4过程直到整张图片合并为一个大的region</li>
+</ul>
+<h4 id="2-3-多样性策略"><a href="#2-3-多样性策略" class="headerlink" title="2.3 多样性策略"></a>2.3 多样性策略</h4><p>给出了三种多样性策略，分别基于颜色空间、相似性度量和不同的初始region选择方法。这部分读得比较粗略…</p>
+<h5 id="2-3-1-颜色空间多样化"><a href="#2-3-1-颜色空间多样化" class="headerlink" title="2.3.1 颜色空间多样化"></a>2.3.1 颜色空间多样化</h5><p>选择了8种颜色空间，列出了每种的不变性特点(invariance property)，见Table 1。<br> <strong>NOTE</strong><br>原文中这部分的小标题分别是complementary color space，直译应为“互补的颜色空间”。第一次读时简直[黑人问号]，后来理解到此处的complementary应是“相互补足”的意思，表达的是“多样，全覆盖”的意思，而不是红-绿、蓝-橙、紫-黄颜色互补的意思。</p>
+<p><img src="http://octknctrc.bkt.clouddn.com/SS_Table_1.png" alt="SS_Table_1"></p>
+<h5 id="2-3-2-相似性度量多样化"><a href="#2-3-2-相似性度量多样化" class="headerlink" title="2.3.2 相似性度量多样化"></a>2.3.2 相似性度量多样化</h5><p>文中共给出了四种相似性度量的策略，分别基于</p>
+<ul>
+<li><strong>颜色</strong></li>
+<li><strong>纹理</strong></li>
+<li><strong>尺寸</strong> 小的object先合并</li>
+<li><strong>相容性</strong> how well region i and j fit into each other</li>
+</ul>
+<h5 id="2-3-3-初始region选择的多样化"><a href="#2-3-3-初始region选择的多样化" class="headerlink" title="2.3.3 初始region选择的多样化"></a>2.3.3 初始region选择的多样化</h5><p>文章中此部分几乎一笔带过了…总之就是用不同的初始region选择的方法和设定不同的阈值K。</p>
+<h4 id="2-4-打分"><a href="#2-4-打分" class="headerlink" title="2.4 打分"></a>2.4 打分</h4><p><strong>方法</strong>：对于某种合并的策略j，定义r(i,j)为在位置i的region（i代表它在合并时候的所在层数，i=1表示在整个图片为一个region的那层），定义其分数为v(i,j)= RND×i，其中RND为[0, 1]之间的一个随机值。</p>
+<p>这又让我[黑人问号]了，这难道不就是随机的打分吗？求解释呀…</p>
+<p>然后给每个region打分后进行ordering，取前多少多少名就得到selective search的结果。</p>
+<p>其实这里还有一点疑问：根据后文Evaluation部分的结果来看，取的regions数量并不是固定的，如何确定？<br>根据hierarchical grouping算法的第一步的threshold？<br><img src="http://octknctrc.bkt.clouddn.com/%E9%BB%91%E4%BA%BA%E9%97%AE%E5%8F%B7.jpg" alt="黑人问号"></p>
+<h3 id="3-使用Selective-Search进行目标识别"><a href="#3-使用Selective-Search进行目标识别" class="headerlink" title="3 使用Selective Search进行目标识别"></a>3 使用<em>Selective Search</em>进行目标识别</h3><p><img src="http://octknctrc.bkt.clouddn.com/SS_Figure_3.png" alt="SS_Figure_3"><br>大致流程如Fig 3，一些细节：</p>
+<ul>
+<li>训练的正样本：Ground Truth</li>
+<li>训练的负样本：由selective search得到的，和正样本有20%-50% overlap的目标定位区域</li>
+<li>特征：SIFT/OppoentSIFT/RGB-SIFT 描述子 + 4-level的空间金字塔分割(spatial pyramid division) </li>
+<li>分类器： SVM with histogram intersection kernel…WTF? 见得不多，不懂这是个什么核，暂时不管了…</li>
+<li>流程：正负样本提取几种SIFT特征后，用spatial pyramid division张成一维的特征向量，送入SVM训练；将False negative的hard negative example送入SVM进行多次retrain(作者说他很厉害，两次就迭代好了666…)</li>
+</ul>
+<h3 id="4-Evaluation"><a href="#4-Evaluation" class="headerlink" title="4 Evaluation"></a>4 Evaluation</h3><p>加上参考文献一共14页的paper，这部分就占了7页左右…<br><strong>评价标准</strong>：定义在所有类别上的Mean Average Best Overlap (MABO).<br>这一部分有点意思，作者表达了这样的意思</p>
+<blockquote>
+<p>一般大家都将overlap&gt;0.5视为分类正确的标准，但是呢，我的方法好像过于强大，得到的recall老是在95%~100%之间。哎，虽然我觉得同行们把0.5这个标准定得太低了，但是我还是勉强采用吧…</p>
+</blockquote>
+<p><img src="http://octknctrc.bkt.clouddn.com/20160311095445832.jpg" alt="ZYN"></p>
+<p>评价实验分为了以下4部分：</p>
+<h4 id="4-1-与多样性策略相关的对比试验"><a href="#4-1-与多样性策略相关的对比试验" class="headerlink" title="4.1 与多样性策略相关的对比试验"></a>4.1 与多样性策略相关的对比试验</h4><p>分别对比了  不分级(flat) VS 层级聚类、使用各种单一策略、使用几种策略相组合 的MABO，结论当然是本文方法一致地优秀…</p>
+<h4 id="4-2-目标定位的质量"><a href="#4-2-目标定位的质量" class="headerlink" title="4.2 目标定位的质量"></a>4.2 目标定位的质量</h4><p>分别在 box-based locations（与bounding box有关的定位，针对rigid的object，比如汽车）、region-based（像素级的分割，针对non-rigid的object，比如草地）两方面进行了对比。</p>
+<h4 id="4-3-目标识别"><a href="#4-3-目标识别" class="headerlink" title="4.3 目标识别"></a>4.3 目标识别</h4><p>在Pascal VOC 2010和2012 detection task上大显身手。</p>
+<h4 id="4-4-关于定位质量的上界-upper-bound-的讨论"><a href="#4-4-关于定位质量的上界-upper-bound-的讨论" class="headerlink" title="4.4 关于定位质量的上界(upper bound)的讨论"></a>4.4 关于定位质量的上界(upper bound)的讨论</h4><p>一句话结论：该方法几乎能接近最优的上界。 </p>
+<h3 id="5-感想"><a href="#5-感想" class="headerlink" title="5 感想"></a>5 感想</h3><p>第一次写这么详细的论文笔记，花了不少时间，收获也不小。完了。</p>
+<p>2016.09.20</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2016/09/24/Post-Production/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/09/18/Softmax/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/dog.jpg" alt="Damon's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        hidamon@163.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Default/">Default<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/Fantasy/">Fantasy<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/学习笔记/">学习笔记<span class="sidebar_archives-count">18</span></a></li><li><a class="sidebar_archives-link" href="/categories/技多不压身/">技多不压身<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/论文笔记/">论文笔记<span class="sidebar_archives-count">11</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">folder</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="时刻">
+                
+                    <i class="material-icons sidebar-material-icons">toys</i>
+                
+                时刻
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章
+                <span class="sidebar-badge">37</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/YuDamon" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;Hierarchy
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

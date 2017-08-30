@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.3 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            论文笔记 - What Makes for Effective Detection Proposals? | 
+        
+        Hierarchy
+    </title>
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    
+    
+    
+    
+        <link rel="dns-prefetch" href="https://hm.baidu.com"/>
+    
+    
+    
+
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="Damon">
+    <meta name="description" content="description">
+    <meta name="keywords" content="Hierarchy,CV,Object Detection">
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Hierarchy">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yudamon.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="论文笔记 - What Makes for Effective Detection Proposals? | Hierarchy">
+    <meta property="og:description" content="description">
+    <meta property="og:article:tag" content="CV"> <meta property="og:article:tag" content="Object Detection"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS & jQuery -->
+    
+        <link rel="stylesheet" href="/css/material.min.css">
+        <link rel="stylesheet" href="/css/style.min.css">
+        <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #76C27D !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #76C27D !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #76C27D !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-image: url(/img/1485080655223.jpg);
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/queue.js"></script>
+    
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?a23836a8b86119cdd5a58cc0fe5ecfe0';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+
+    
+
+
+    <!-- Bing Background -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1-Introduction"><span class="post-toc-number">1.</span> <span class="post-toc-text">1 Introduction</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-DP方法回顾与分类"><span class="post-toc-number">2.</span> <span class="post-toc-text">2 DP方法回顾与分类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-分割聚类"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">2.1 分割聚类</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-1group-superpixels-SP"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">2.1.1group superpixels(SP)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-2-graph-cut-GC"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">2.1.2 graph cut (GC)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-1-3-edge-contours-EC"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">2.1.3 edge contours (EC)</span></a></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-窗口打分"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">2.2 窗口打分</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-3-其他方法"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">2.3 其他方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2-各种DP方法的“repeatability”"><span class="post-toc-number">3.</span> <span class="post-toc-text">2 各种DP方法的“repeatability”</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-1-为什么要考察“repeatability”？"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">2.1 为什么要考察“repeatability”？</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-2-方法和结论"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2.2 方法和结论</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3-各种DP方法的Recall"><span class="post-toc-number">4.</span> <span class="post-toc-text">3 各种DP方法的Recall</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#4-各种DP方法用于detector"><span class="post-toc-number">5.</span> <span class="post-toc-text">4 各种DP方法用于detector</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#5-全文总结与讨论"><span class="post-toc-number">6.</span> <span class="post-toc-text">5 全文总结与讨论</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script>
+    var randomNum = Math.floor(Math.random() * 59 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                论文笔记 - What Makes for Effective Detection Proposals?
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/dog.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>Damon</strong>
+        <span>10月 12, 2016</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/CV/">CV</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Object-Detection/">Object Detection</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=论文笔记 - What Makes for Effective Detection Proposals?&url=http://yudamon.github.io//2016/10/12/RegionProposal/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=论文笔记 - What Makes for Effective Detection Proposals?&url=http://yudamon.github.io//2016/10/12/RegionProposal/index.html&via=Damon" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yudamon.github.io//2016/10/12/RegionProposal/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+        <a class="post_share-link" href="https://plus.google.com/share?url=http://yudamon.github.io//2016/10/12/RegionProposal/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Google+
+            </li>
+        </a>
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Hierarchy&title=论文笔记 - What Makes for Effective Detection Proposals?&summary=description&pics=http://yudamon.github.io/img/favicon.png&url=http://yudamon.github.io/2016/10/12/RegionProposal/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <p>一篇去年的文章，关于detection proposal方法的综述。<br><a id="more"></a><br>不知道该把detection proposal或者object proposal或者region proposal或者candidate proposal翻译成什么比较好，目标候选区域？目标候选建议？怎么译都觉得都不够信达雅。<br>NOTE: detection proposal， 下面简称DP。其实感觉现在已经比较统一地叫<strong> Region Proposal </strong>了</p>
+<h3 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1 Introduction"></a>1 Introduction</h3><ol>
+<li>假设：感兴趣的目标有能与背景区分开的视觉特征。那么就可以设计/训练出”能产生包含目标的window”的方法，即DP方法。</li>
+<li>以前用sliding window, 现在厉害的detector都用DP。因为更快，而且可能会减少FP。</li>
+<li>文章将介绍四个部分：</li>
+</ol>
+<ul>
+<li>对各种DP方法的回顾和分类，给出了大致的性能比较。</li>
+<li>检验各种DP方法的“repeatability”，即在图片加上各类扰动后，检验各类DP方法是否鲁棒。</li>
+<li>检验各种DP方法在两个测试集（PASCAL VOC 2007和ImageNet 2013）上的Recall。</li>
+<li>检验各种DP方法用于DPM和R-CNN两类detector上的表现；并提出了一种新的评估方法average recall (AR)。</li>
+</ul>
+<hr>
+<h3 id="2-DP方法回顾与分类"><a href="#2-DP方法回顾与分类" class="headerlink" title="2 DP方法回顾与分类"></a>2 DP方法回顾与分类</h3><p>作者将方法分为了分割聚类（grouping）、窗口打分（window scoring）和其他方法（alternate）三类。<br><img src="http://octknctrc.bkt.clouddn.com/12and4.png" alt="方法比较"></p>
+<h4 id="2-1-分割聚类"><a href="#2-1-分割聚类" class="headerlink" title="2.1 分割聚类"></a>2.1 分割聚类</h4><p>又分为了超像素合并group superpixels(SP)、图割graph cut (GC)和边缘轮廓edge contours (EC)三类。每类挑表现较好的记录下。</p>
+<h5 id="2-1-1group-superpixels-SP"><a href="#2-1-1group-superpixels-SP" class="headerlink" title="2.1.1group superpixels(SP)"></a>2.1.1group superpixels(SP)</h5><ul>
+<li><strong>SelectiveSearch</strong> @<a href="https://yudamon.github.io/2016/09/20/0919_selective%20search/">上篇论文笔记</a></li>
+<li><strong>RandomizedPrim</strong>  使用和SelectiveSearch类似的特征，采用学习了所有可能性的随机化的聚类过程(a randomisd superpixel merging process in which all probabilities have been learned)，速度大幅提升</li>
+</ul>
+<h5 id="2-1-2-graph-cut-GC"><a href="#2-1-2-graph-cut-GC" class="headerlink" title="2.1.2 graph cut (GC)"></a>2.1.2 graph cut (GC)</h5><ul>
+<li><strong>CPMC</strong> 随机初始化种子点，graphcut分割后用大量的特征进行排序，速度很慢</li>
+<li><strong>Rigor</strong> CPMC的改进版，速度更快</li>
+</ul>
+<h5 id="2-1-3-edge-contours-EC"><a href="#2-1-3-edge-contours-EC" class="headerlink" title="2.1.3 edge contours (EC)"></a>2.1.3 edge contours (EC)</h5><ul>
+<li><strong>MCG</strong> 先用现成的算法计算多尺度的层级分割，然后根据边缘强度信息合并。</li>
+</ul>
+<h4 id="2-2-窗口打分"><a href="#2-2-窗口打分" class="headerlink" title="2.2 窗口打分"></a>2.2 窗口打分</h4><p>这类方法通常只返回bb框（bounding box），往往更快</p>
+<ul>
+<li><strong>Objectness</strong> 最早的DP方法之一，选择图中的显著性位置（salient locations）作为初始proposal集，然后根据多种线索打分。</li>
+<li><strong>Bing</strong> 用边缘特征训练一个简单的线性分类器，然后用滑动窗口筛选。速度很快，但是另一篇文献说这个方法有问题…从后面的表现来看，这个方法确实怪怪的。</li>
+<li><strong>EdgeBoxes</strong> 先用滑动窗口根据目标边缘估计来过滤，然后优化，提高定位精度。</li>
+</ul>
+<h4 id="2-3-其他方法"><a href="#2-3-其他方法" class="headerlink" title="2.3 其他方法"></a>2.3 其他方法</h4><ul>
+<li><strong>Multibox</strong> 用NN直接回归固定数量的proposal</li>
+</ul>
+<hr>
+<h3 id="2-各种DP方法的“repeatability”"><a href="#2-各种DP方法的“repeatability”" class="headerlink" title="2 各种DP方法的“repeatability”"></a>2 各种DP方法的“repeatability”</h3><h4 id="2-1-为什么要考察“repeatability”？"><a href="#2-1-为什么要考察“repeatability”？" class="headerlink" title="2.1 为什么要考察“repeatability”？"></a>2.1 为什么要考察“repeatability”？</h4><p>很自然的想法：一个好的DP方法应该在相似的图片上得到几乎一致的候选框。</p>
+<h4 id="2-2-方法和结论"><a href="#2-2-方法和结论" class="headerlink" title="2.2 方法和结论"></a>2.2 方法和结论</h4><ul>
+<li>作者使用了PASCAL VOC 2007测试集，在原图的基础上手动生成多个有扰动的版本(perturbed version)。</li>
+<li>扰动包括尺寸变化、模糊、旋转、亮度、JPEG压缩、椒盐噪声(“salt and pepper” noise, 看得我都饿了)。</li>
+<li>然后就考察各种DP方法是否在扰动下得到的候选框中最好的位置与原图中的Ground Truth的IoU。</li>
+<li>结论是各种方法都不怎么样，Bing和EdgeBoxes略好。</li>
+</ul>
+<hr>
+<h3 id="3-各种DP方法的Recall"><a href="#3-各种DP方法的Recall" class="headerlink" title="3 各种DP方法的Recall"></a>3 各种DP方法的Recall</h3><p>作者在这里选择了三种度量方式，其中一种是作者原创的：“根据不同的proposal数目，计算IoU在0.5到1之间Recall（也就是average recall, AR）”。<br>和上一小节一样，有一堆花花绿绿的曲线图，选两个贴在下面，第一个是PASCAL VOC 07，第二个是ImageNet 2013 validation set。<br><img src="http://octknctrc.bkt.clouddn.com/AR1.png" alt="AR1"><br><img src="http://octknctrc.bkt.clouddn.com/AR2.png" alt="AR2"></p>
+<p>结论是</p>
+<ul>
+<li>MCG， EdgeBoxes，SelectiveSearch, Rigor和Geodesic在不同proposal数目下的表现最好</li>
+<li>几乎所有被测试的DP方法，在PASCAL（只有20个类别）上和在ImageNet 2013 validation set（200个类别）上的测试结果接近，所以这些方法的泛化能力(generalization)都还不错</li>
+</ul>
+<hr>
+<h3 id="4-各种DP方法用于detector"><a href="#4-各种DP方法用于detector" class="headerlink" title="4 各种DP方法用于detector"></a>4 各种DP方法用于detector</h3><p>DP方法终究是要为detection服务的，所以肯定是要在detection model上跑跑看效果。<br>这里选了LM-LLDA（基于DPM）和R-CNN（这篇文章投的15年的PAMI，当时fast和faster版本还没出来）<br>结论</p>
+<ul>
+<li>两种detector下，前五名都一样，见下图：<br><img src="http://octknctrc.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20161011100721.png" style="zoom:50%"></li>
+<li>作者发现AR和常用的mAP相关性很强，可以以此来指导DP方法的参数调整，得到更好的mAP。</li>
+<li>DP方法定位越准，对后续的detector越有利，所以通常把IoU阈值设为0.5的recall不太好。由于定位准确度的原因，高的recall并不一定能预示着高的mAP。</li>
+</ul>
+<hr>
+<h3 id="5-全文总结与讨论"><a href="#5-全文总结与讨论" class="headerlink" title="5 全文总结与讨论"></a>5 全文总结与讨论</h3><ul>
+<li>从多方面的测试来看 ，目前表现最好的方法是MCG, SeletiveSearch, EdgeBoxes, Rigor, Geodesic.</li>
+<li>提高DP方法的定位精确度（设置更严格的IoU阈值）和提高recall一样重要。</li>
+<li>作者认为自创的AR标准不错，值得推广。</li>
+<li>如果硬件的计算能力足够强，还有必要使用DP方法吗？我个人觉得硬件是永远不够用的，总是需要更快更好的算法，才能更多trade off的余地。</li>
+<li>目前的DP方法中，使用到的特征都没有被后续的分类器所利用，作者期待有人来做一下整合。貌似就是最新的“端到端”的框架？</li>
+</ul>
+<p>2016.10.12</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2017/01/02/SSD/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/09/24/Post-Production/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/dog.jpg" alt="Damon's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        hidamon@163.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Default/">Default<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/Fantasy/">Fantasy<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/categories/学习笔记/">学习笔记<span class="sidebar_archives-count">18</span></a></li><li><a class="sidebar_archives-link" href="/categories/技多不压身/">技多不压身<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/论文笔记/">论文笔记<span class="sidebar_archives-count">11</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/tags" title="标签">
+                
+                    <i class="material-icons sidebar-material-icons">folder</i>
+                
+                标签
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="时刻">
+                
+                    <i class="material-icons sidebar-material-icons">toys</i>
+                
+                时刻
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章
+                <span class="sidebar-badge">37</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/YuDamon" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.svg);">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;Hierarchy
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+
+    <script src="/js/lazyload.min.js"></script>
+    <script src="/js/js.min.js"></script>
+
+
+
+    <script src="/js/nprogress.js"></script>
+
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+<script>
+    <!-- Offer LazyLoad -->
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    <!-- Start Queue -->
+    $(document).ready(function(){
+        setTimeout(function(){
+            setInterval(function(){
+                queue.execNext();
+            },200);
+        },3000);
+    });
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

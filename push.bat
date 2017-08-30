@@ -1,0 +1,1 @@
+git init && git add . && git commit -m "-" && git remote add origin git@github.com:YuDamon/YuDamon.github.io && git push -u origin master -f 
